@@ -25,14 +25,18 @@ def gethistory(botname,length=10):
     for i in histories:
         real.append((i["node"]["author"],i["node"]["text"]))
     return real
+def clearhistory(botname):
+    client.purge_conversation(botname)
 while 1:
     data=json.loads(ws.recv())
     if data['cmd']=='chat':
         if data['nick']!='n0ptr':
-            text=chatwith('BotO15AYGQD64',data['nick']+': '+data['text'])
-            if '我不想回复。' in text:
-                continue
-            _text=text.split(';')
-            for i in _text:
-                time.sleep(len(i)*0.5)
-                ws.send(json.dumps({"cmd":"chat","text":i.replace('n0pTr: ','')}))
+            if data['level']>100:
+                text=chatwith('BotO15AYGQD64',data['nick']+': '+data['text'])
+                if '我不想回复。' in text:
+                    continue
+                clearhistory('BotO15AYGQD64')
+                _text=text.split(';')
+                for i in _text:
+                    time.sleep(len(i)*0.5)
+                    ws.send(json.dumps({"cmd":"chat","text":i.replace('n0pTr: ','')}))

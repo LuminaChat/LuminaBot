@@ -24,7 +24,9 @@ def gethistory(botname,length=10):
     real=[]
     for i in histories:
         real.append((i["node"]["author"],i["node"]["text"]))
-    return real
+    return 
+def clearhistory(botname):
+    client.purge_conversation(botname)
 while 1:
     data=json.loads(ws.recv())
     if data['cmd']=='chat':
